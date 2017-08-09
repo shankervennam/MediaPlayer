@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder>
 {
     List<Audio> lsit = Collections.emptyList();
     Context context;
@@ -23,34 +23,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
-
+        ViewHolder holder = new ViewHolder(v);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
-    {
-
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.textView.setText(lsit.get(position).getTitle());
     }
 
     @Override
     public int getItemCount()
     {
-        return 0;
+        return lsit.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView)
     {
-        TextView textView;
-        ImageView imageView;
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+}
+class ViewHolder extends RecyclerView.ViewHolder
+{
+    TextView textView;
+    ImageView imageView;
 
-        public ViewHolder(View itemView)
-        {
-            super(itemView);
-            //textView = itemView.findViewById(R.id.t)
-
-        }
+    public ViewHolder(View itemView)
+    {
+        super(itemView);
+        textView = (TextView) itemView.findViewById(R.id.title);
+        imageView = (ImageView) itemView.findViewById(R.id.play_pause);
     }
 }
